@@ -8,7 +8,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 const chartConfig = {
   desktop: {
@@ -32,10 +32,12 @@ const AppAreaChart = () => {
   ];
   return (
     <div>
-      <h1 className="text-lg font-medium mb-6 ">Total revenue</h1>
+      <h1 className="text-lg font-medium mb-6 ">Total visitors</h1>
       <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-        <BarChart accessibilityLayer data={chartData}>
+        <AreaChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <ChartLegend content={<ChartLegendContent />} />
           <XAxis
             dataKey="month"
             tickLine={false}
@@ -44,11 +46,24 @@ const AppAreaChart = () => {
             tickFormatter={(value) => value.slice(0, 3)}
           />
           <YAxis tickLine={false} tickMargin={10} axisLine={false} />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <ChartLegend content={<ChartLegendContent />} />
-          <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-          <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-        </BarChart>
+
+          <Area
+            dataKey="mobile"
+            type="natural"
+            fill="var(--color-mobile)"
+            fillOpacity={0.4}
+            stroke="var(--color-mobile)"
+            stackId="a"
+          />
+          <Area
+            dataKey="desktop"
+            type="natural"
+            fill="var(--color-desktop)"
+            fillOpacity={0.4}
+            stroke="var(--color-desktop)"
+            stackId="a"
+          />
+        </AreaChart>
       </ChartContainer>
     </div>
   );
